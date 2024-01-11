@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.LinkLabel;
 
@@ -80,17 +82,21 @@ namespace CricketScoreScraper.Scraper
 
         public async Task FetchMatchDetailsAsync(string url)
         {
-
+            Console.WriteLine(url);
             Scorecard scorecard = new Scorecard();
             await Task.Delay(1000);
 
+            string subPageContent = await client.GetStringAsync(url).ConfigureAwait(false);
             //Load subpage
             HtmlAgilityPack.HtmlDocument subPage = new HtmlAgilityPack.HtmlDocument();
-            subPage.LoadHtml(url);
+            subPage.LoadHtml(subPageContent);
 
-
-            Console.WriteLine(url);
-
+            //Fetching details
+            string expr_details = "//div[@class='ds-text-tight-m ds-font-regular ds-text-typo-mid3']";
+            HtmlNode? detailsElement = subPage.DocumentNode.SelectSingleNode(expr_details);
+            string? details = detailsElement?.InnerText.Trim();
+            Console.WriteLine(details);
+            
         }
 
 
