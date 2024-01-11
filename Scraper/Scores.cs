@@ -5,56 +5,91 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using static System.Net.WebRequestMethods;
+using static System.Windows.Forms.LinkLabel;
 
 namespace CricketScoreScraper.Scraper
 {
 
     struct Scorecard
     {
-        public string teamA, teamB;
-        public int score, wickets, inningsNumber, target;
+        public string teamA, teamB, link, innings, status;
+        public int score, wickets, target;
     }
+
     internal class Scores
     {
         public List<Scorecard> scorecards;
-        private string url;
-        private HttpClient client;
-        private HtmlAgilityPack.HtmlDocument document;
+        private readonly string url;
+        private readonly HttpClient client;
+        private readonly HtmlAgilityPack.HtmlDocument document;
 
-        public Scores()
+        public Scores(HttpClient httpClient)
         {
             url = "https://www.espncricinfo.com/live-cricket-score";
-            client = new HttpClient();
+            client = httpClient;
             document = new HtmlAgilityPack.HtmlDocument();
-
-            fetchScores();
+            scorecards = new List<Scorecard>();
+          
         }
 
-        public void fetchScores()
+        public async Task InitializeAsync()
         {
-            //Load html document
-            string html = client.GetStringAsync(url).Result;
-            document.LoadHtml(html);
+            Console.WriteLine("Initialization started.");
+            await FetchMatchesAsync();
+            Console.WriteLine("Initialization complete.");
+            
+        }
 
-            //Get scores
-            string  class_scorecard = "ds-border-b ds-border-line ds-w-1/2";
-            string expr_matchDetails = ".//div[@class='ds-text-tight-xs ds-truncate ds-text-typo-mid3']";
-    
+        public async Task FetchMatchesAsync()
+        {
 
-            List<HtmlNode> scoreNodes = document.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("class", "").Contains(class_scorecard)).ToList();
-
-            foreach (var scoreNode in scoreNodes)
+            try
             {
-                string line = scoreNode.SelectSingleNode(expr_matchDetails).InnerText;
-                Console.WriteLine(line);
- 
+                //Load html document
+                string html = await client.GetStringAsync(url).ConfigureAwait(false);
+                document.LoadHtml(html);
+
+                //Get scores
+                string class_scorecard = "ds-no-tap-higlight";
+                string expr_matchDetails = ".//div[@class='ds-text-tight-xs ds-truncate ds-text-typo-mid3']";
+                string expr_matchLink = ".//a[@class='ds-inline-flex ds-items-start ds-leading-none !ds-inline']";
+
+
+
+                List<HtmlNode> scoreNodes = document.DocumentNode.Descendants("a")
+                    .Where(node => node.GetAttributeValue("class", "").Contains(class_scorecard)).ToList();
+
+                var tasks = scoreNodes.Select(scoreNode =>
+                {
+                    string? url = "https://www.espncricinfo.com" + scoreNode.GetAttributeValue("href", string.Empty);
+                    return FetchMatchDetailsAsync(url);
+                });
+
+                await Task.WhenAll(tasks);
+
+                Console.WriteLine("Done");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
 
-          
+
+        }
+
+        public async Task FetchMatchDetailsAsync(string url)
+        {
+
+            Scorecard scorecard = new Scorecard();
+            await Task.Delay(1000);
+
+            //Load subpage
+            HtmlAgilityPack.HtmlDocument subPage = new HtmlAgilityPack.HtmlDocument();
+            subPage.LoadHtml(url);
 
 
+            Console.WriteLine(url);
 
         }
 
