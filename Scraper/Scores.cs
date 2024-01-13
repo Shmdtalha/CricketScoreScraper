@@ -69,13 +69,17 @@ namespace CricketScoreScraper.Scraper
                     Console.WriteLine($"{scorecards.Count} Scorecards fetched...");
                 }
 
+                //Sort by relevancy
+                scorecards = scorecards.OrderByDescending(scorecard => scorecard.CalculateRelevancy()).ToList();
+
+
                 //Print results
-                
-                foreach(Scorecard scorecard in scorecards)
+                foreach (Scorecard scorecard in scorecards)
                 {
                     scorecard.Print();
                 }
                 Console.WriteLine("Number of Scorecards: " + scorecards.Count);
+
 
                 Console.WriteLine("Scraping Done");
             }
