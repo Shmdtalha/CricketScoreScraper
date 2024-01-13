@@ -80,11 +80,10 @@ namespace CricketScoreScraper.Scraper
 
             Console.WriteLine($"Details: {details}\n" +
                 $"Coverage: {coverage}\n"+
-                $"Team A: {teamA} - Score A: {scoreA}\n" +
-                $"Team B: {teamB} - Score B: {scoreB}\n" +
+                $"Team A: {teamA} \nScore A: {scoreA}\n" +
+                $"Team B: {teamB} \nScore B: {scoreB}\n" +
                 $"Status: {status}\n" +
                 $"URL: {link}\n\n");
-    
         }
     }
 }

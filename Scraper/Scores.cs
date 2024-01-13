@@ -36,7 +36,7 @@ namespace CricketScoreScraper.Scraper
         {
             Console.WriteLine("Async started.");
             await FetchMatchesAsync();
-            Console.WriteLine("Async complete.");
+            Console.WriteLine("Async completed.");
             
         }
 
@@ -70,11 +70,12 @@ namespace CricketScoreScraper.Scraper
                 }
 
                 //Print results
-                Console.WriteLine("Number of Scorecards: " + scorecards.Count);
+                
                 foreach(Scorecard scorecard in scorecards)
                 {
                     scorecard.Print();
                 }
+                Console.WriteLine("Number of Scorecards: " + scorecards.Count);
 
                 Console.WriteLine("Scraping Done");
             }
@@ -95,7 +96,8 @@ namespace CricketScoreScraper.Scraper
             HtmlAgilityPack.HtmlDocument subPage = new HtmlAgilityPack.HtmlDocument();
             subPage.LoadHtml(subPageContent);
 
-            //Making nodes
+
+            //Making nodes to Fetch match details
             string expr_details = "//div[@class='ds-text-tight-m ds-font-regular ds-text-typo-mid3']";
             HtmlNode? matchDetailsElement = subPage.DocumentNode.SelectSingleNode(expr_details);
 
@@ -110,30 +112,10 @@ namespace CricketScoreScraper.Scraper
             string? scoreTeamB = teamDetails[1].SelectSingleNode(".//strong")?.InnerText.Trim();
             string? status = subPage.DocumentNode.SelectSingleNode(".//p[@class = 'ds-text-tight-m ds-font-regular ds-truncate ds-text-typo']/span")?.InnerText?.Trim();
             string? coverage = subPage.DocumentNode.SelectSingleNode(".//div[@class='ds-px-4 ds-py-3 ds-border-b ds-border-line']//strong")?.InnerText.Trim();
-
-
-
-
-            //Return if an element is null
-            if (matchDetailsElement == null || teamsDetailsElement== null)
-            {
-                Console.WriteLine("An element was null");
-                return;
-            }
-
-            //Fetching match details
             string details = WebUtility.HtmlDecode(matchDetailsElement.InnerText.Trim());
             
 
-            //Console.WriteLine(details);
-            //Console.WriteLine($"Team A: {teamA}");
-            //Console.WriteLine($"Team B: {teamB}");
-            //Console.WriteLine($"Score A: {scoreTeamA}");
-            //Console.WriteLine($"Score B: {scoreTeamB}");
-            //Console.WriteLine("Coverage: " + coverage);
-            //Console.WriteLine("Status: " + status + "\n\n");
-
-            // Set values using the Scorecard methods
+            // Set and Add Scorecard values
             Scorecard scorecard = new Scorecard();
             scorecard.SetTeamA(teamA);
             scorecard.SetTeamB(teamB);
