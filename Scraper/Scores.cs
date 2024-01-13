@@ -21,7 +21,7 @@ namespace CricketScoreScraper.Scraper
         private readonly string url;
         private readonly HttpClient client;
         private readonly HtmlAgilityPack.HtmlDocument document;
-        const int batchSize = 15;
+        const int batchSize = 13;
 
         public Scores(HttpClient httpClient)
         {
@@ -34,9 +34,9 @@ namespace CricketScoreScraper.Scraper
 
         public async Task InitializeAsync()
         {
-            Console.WriteLine("Initialization started.");
+            Console.WriteLine("Async started.");
             await FetchMatchesAsync();
-            Console.WriteLine("Initialization complete.");
+            Console.WriteLine("Async complete.");
             
         }
 
@@ -49,33 +49,34 @@ namespace CricketScoreScraper.Scraper
                 string html = await client.GetStringAsync(url).ConfigureAwait(false);
                 document.LoadHtml(html);
 
-                //Get scores
+                //Get URLs of score subpages
                 string class_scorecard = "ds-no-tap-higlight";
-                string expr_matchDetails = ".//div[@class='ds-text-tight-xs ds-truncate ds-text-typo-mid3']";
-                string expr_matchLink = ".//a[@class='ds-inline-flex ds-items-start ds-leading-none !ds-inline']";
-
-
-
                 List<HtmlNode> scoreNodes = document.DocumentNode.Descendants("a")
                     .Where(node => node.GetAttributeValue("class", "").Contains(class_scorecard)).ToList();
 
 
-                var tasks = scoreNodes.Select(scoreNode =>
-                {
-                    string? url = "https://www.espncricinfo.com" + scoreNode.GetAttributeValue("href", string.Empty);
-                    return FetchMatchDetailsAsync(url);
-                });
+                //Scrape subpages in batchess
+                for(int i = 0; i <  scoreNodes.Count; i+= batchSize) {
 
-                await Task.WhenAll(tasks);
+                    List<string> batchUrls = scoreNodes
+                    .Skip(i)
+                    .Take(batchSize)
+                    .Select(scoreNode => "https://www.espncricinfo.com" + scoreNode.GetAttributeValue("href", string.Empty))
+                    .ToList();
 
+                    var tasks = batchUrls.Select(url => FetchMatchDetailsAsync(url));
+                    await Task.WhenAll(tasks);
+                    Console.WriteLine($"{scorecards.Count} Scorecards fetched...");
+                }
+
+                //Print results
                 Console.WriteLine("Number of Scorecards: " + scorecards.Count);
-
                 foreach(Scorecard scorecard in scorecards)
                 {
                     scorecard.Print();
                 }
 
-                Console.WriteLine("Done");
+                Console.WriteLine("Scraping Done");
             }
             catch (Exception ex)
             {
@@ -88,9 +89,6 @@ namespace CricketScoreScraper.Scraper
 
         public async Task FetchMatchDetailsAsync(string url)
         {
-            Console.WriteLine(url);
-            Scorecard scorecard = new Scorecard();
-            await Task.Delay(1000);
 
             //Load subpage
             string subPageContent = await client.GetStringAsync(url).ConfigureAwait(false);
@@ -136,6 +134,7 @@ namespace CricketScoreScraper.Scraper
             //Console.WriteLine("Status: " + status + "\n\n");
 
             // Set values using the Scorecard methods
+            Scorecard scorecard = new Scorecard();
             scorecard.SetTeamA(teamA);
             scorecard.SetTeamB(teamB);
             scorecard.SetScoreA(scoreTeamA);
@@ -143,6 +142,7 @@ namespace CricketScoreScraper.Scraper
             scorecard.SetDetails(details);
             scorecard.SetLink(url);
             scorecard.SetStatus(status);
+            scorecard.SetCoverage(coverage);
 
             scorecards.Add(scorecard);  
 
