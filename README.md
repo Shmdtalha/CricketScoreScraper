@@ -34,5 +34,9 @@ This is a C# web scraping project designed to extract cricket match details from
 
 3. Explore the user interface to view and interact with the scraped cricket scorecards.
 
+## Work In Progress:
+1. The backend is mostly done. Need to set and improve the UI.
+2. Need to secure with encryption before publishing.
+
 
 
