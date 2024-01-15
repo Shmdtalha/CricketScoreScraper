@@ -15,7 +15,7 @@ namespace CricketScoreScraper.Scraper
 
 
 
-    internal class Scores
+    public class Scores
     {
         public List<Scorecard> scorecards;
         private readonly string url;

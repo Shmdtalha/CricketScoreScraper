@@ -81,7 +81,7 @@ namespace CricketScoreScraper.Scraper
 
    
 
-    internal class Scorecard
+    public  class Scorecard
     {
         public string teamA, teamB, scoreA, scoreB, link, innings, status;
         public string score, wickets, target, coverage, details;

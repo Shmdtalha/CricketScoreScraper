@@ -12,10 +12,12 @@ namespace CricketScoreScraper
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            //ApplicationConfiguration.Initialize();
-            //Application.Run(new Form1());
             HttpClient client = new HttpClient();
-            await new Scores(client).InitializeAsync();
+            Scores scores = new Scores(client);
+            await scores.InitializeAsync();
+            ApplicationConfiguration.Initialize();
+            Application.Run(new FormMainPage(scores));
+            
         }
     }
 }
