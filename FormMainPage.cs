@@ -1,4 +1,5 @@
 using CricketScoreScraper.Scraper;
+using Microsoft.Win32;
 using System.Security.Cryptography.X509Certificates;
 
 namespace CricketScoreScraper
@@ -9,6 +10,7 @@ namespace CricketScoreScraper
         public Scores scores;
         public FormMainPage()
         {
+            SetAutoStart(true);
             InitializeComponent();
             originalHeight = this.Height;
             slidingPanel.Top = mainPanel.Bottom;
@@ -109,7 +111,23 @@ namespace CricketScoreScraper
 
         }
 
+        private void SetAutoStart(bool enable)
+        {
+            const string appName = "CricketScoreScraper"; // Change this to your application name
+            const string runKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(runKey, true))
+            {
+                if (enable)
+                {
+                    key.SetValue(appName, Application.ExecutablePath);
+                }
+                else
+                {
+                    key.DeleteValue(appName, false);
+                }
+            }
+        }
         private void SetTheme()
         {
 
