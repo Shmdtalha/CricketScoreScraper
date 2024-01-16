@@ -143,6 +143,20 @@ namespace CricketScoreScraper
             this.ActiveControl = null;
         }
 
+        private void scoreListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (scoreListBox.SelectedIndex >= 0)
+            {
+                Scorecard selectedScorecard = scores.scorecards[scoreListBox.SelectedIndex];
+                // Update labels with the relevant information
+                labelTeamAScore.Text = $"{selectedScorecard.teamA}: {selectedScorecard.scoreA}";
+                labelTeamBScore.Text = $"{selectedScorecard.teamB}: {selectedScorecard.scoreB}";
+                labelCoverage.Text = selectedScorecard.coverage;
+                labelStatus.Text = selectedScorecard.status;
+            }
+        }
+
+       
         private void FormMainPage_Load(object sender, EventArgs e)
         {
            

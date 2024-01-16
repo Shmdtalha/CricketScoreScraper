@@ -37,6 +37,10 @@ namespace CricketScoreScraper
             scoreListBox = new ListBox();
             slidingPanel = new Panel();
             loadingBox = new TextBox();
+            labelTeamAScore = new Label();
+            labelTeamBScore = new Label();
+            labelCoverage = new Label();
+            labelStatus = new Label();
             mainPanel.SuspendLayout();
             slidingPanel.SuspendLayout();
             SuspendLayout();
@@ -81,6 +85,7 @@ namespace CricketScoreScraper
             scoreListBox.TabIndex = 0;
             scoreListBox.BackColor = System.Drawing.Color.FromArgb(122, 102, 138);
             scoreListBox.BorderStyle = BorderStyle.None;
+            scoreListBox.SelectedIndexChanged += scoreListBox_SelectedIndexChanged;
             // 
             // loadingBox
             // 
@@ -130,6 +135,42 @@ namespace CricketScoreScraper
             mainPanel.ResumeLayout(false);
             slidingPanel.ResumeLayout(false);
             ResumeLayout(false);
+            //
+            //labelTeamAScore
+            //
+            labelTeamAScore.ForeColor = Color.White;
+            labelTeamAScore.Text = "TeamA";
+            labelTeamAScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
+            labelTeamAScore.AutoSize = true;
+            labelTeamAScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamAScore.Width) / 4, 30);
+            mainPanel.Controls.Add(labelTeamAScore);
+            //
+            //labelTeamBScore
+            //
+            labelTeamBScore.ForeColor = Color.White;
+            labelTeamBScore.Text = "TeamB";
+            labelTeamBScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
+            labelTeamBScore.AutoSize = true;
+            labelTeamBScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamBScore.Width) / 4, 60);
+            mainPanel.Controls.Add(labelTeamBScore);
+            //
+            //labelCoverage
+            //     
+            labelCoverage.ForeColor = Color.White;
+            labelCoverage.Text = "Coverage";
+            labelCoverage.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
+            labelCoverage.AutoSize = true;
+            labelCoverage.Location = new Point((mainPanel.Left + mainPanel.Right - labelCoverage.Width) / 4, 5);
+            mainPanel.Controls.Add(labelCoverage);
+            //
+            //labelStatus
+            //
+            labelStatus.ForeColor = Color.White;
+            labelStatus.Text = "Status is here";
+            labelStatus.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
+            labelStatus.AutoSize = true;
+            labelStatus.Location = new Point((mainPanel.Left + mainPanel.Right - labelStatus.Width) / 4, 95);
+            mainPanel.Controls.Add(labelStatus);
         }
 
         #endregion
@@ -139,5 +180,9 @@ namespace CricketScoreScraper
         private Panel slidingPanel;
         private ListBox scoreListBox;
         private TextBox loadingBox;
+        private Label labelTeamAScore;
+        private Label labelTeamBScore;
+        private Label labelCoverage;
+        private Label labelStatus;
     }
 }
