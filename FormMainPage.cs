@@ -14,9 +14,9 @@ namespace CricketScoreScraper
             slidingPanel.Top = mainPanel.Bottom;
             SetTheme();
 
-            _ =InitializeAsync();
+            _ = InitializeAsync();
 
- 
+
         }
 
         public async Task InitializeAsync()
@@ -27,6 +27,7 @@ namespace CricketScoreScraper
                 loadingBox.Visible = true;
                 toggleButton.Enabled = false;
                 slidingPanel.Visible = false;
+                labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = false;
 
                 //Initialize ASync
                 HttpClient client = new HttpClient();
@@ -49,6 +50,7 @@ namespace CricketScoreScraper
                 // ALlow access when scorecards laod
                 loadingBox.Visible = false;
                 toggleButton.Enabled = true;
+                labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = true;
             }
             catch (Exception ex)
             {
@@ -156,10 +158,10 @@ namespace CricketScoreScraper
             }
         }
 
-       
+
         private void FormMainPage_Load(object sender, EventArgs e)
         {
-           
+
 
 
         }

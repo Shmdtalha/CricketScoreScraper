@@ -45,8 +45,6 @@ namespace CricketScoreScraper
             slidingPanel.SuspendLayout();
             SuspendLayout();
             loadingBox.SuspendLayout();
-
-
             // 
             // mainPanel
             // 
@@ -58,7 +56,7 @@ namespace CricketScoreScraper
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(728, 125);
             mainPanel.TabIndex = 0;
-            mainPanel.BackColor = System.Drawing.Color.FromArgb(45, 12, 57);
+            mainPanel.BackColor = Color.FromArgb(45, 12, 57);
             // 
             // toggleButton
             // 
@@ -81,9 +79,9 @@ namespace CricketScoreScraper
             scoreListBox.Margin = new Padding(3, 4, 3, 4);
             scoreListBox.Name = "scoreListBox";
             scoreListBox.Size = new Size(728, 0);
-            scoreListBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            scoreListBox.Font = new Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Point, 0);
             scoreListBox.TabIndex = 0;
-            scoreListBox.BackColor = System.Drawing.Color.FromArgb(122, 102, 138);
+            scoreListBox.BackColor = Color.FromArgb(122, 102, 138);
             scoreListBox.BorderStyle = BorderStyle.None;
             scoreListBox.SelectedIndexChanged += scoreListBox_SelectedIndexChanged;
             // 
@@ -98,11 +96,12 @@ namespace CricketScoreScraper
             loadingBox.ReadOnly = true;
             loadingBox.BorderStyle = BorderStyle.None;
             loadingBox.TextAlign = HorizontalAlignment.Center;
-            loadingBox.Size = new Size(106, 45);
+            loadingBox.Size = new Size(Height, Width);
             loadingBox.TabIndex = 1;
             loadingBox.Text = "Loading";
             loadingBox.TextChanged += textBox1_TextChanged;
             loadingBox.TabStop = false;
+            loadingBox.Dock = DockStyle.Fill;
             loadingBox.GotFocus += LoadingBox_GotFocus;
             // 
             // slidingPanel
@@ -113,7 +112,7 @@ namespace CricketScoreScraper
             slidingPanel.Margin = new Padding(3, 4, 3, 4);
             slidingPanel.Name = "slidingPanel";
             slidingPanel.Size = new Size(728, 0);
-            slidingPanel.BackColor = System.Drawing.Color.FromArgb(45, 12, 57);
+            slidingPanel.BackColor = Color.FromArgb(45, 12, 57);
             slidingPanel.TabIndex = 1;
             // 
             // FormMainPage
@@ -130,41 +129,41 @@ namespace CricketScoreScraper
             FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
             StartPosition = FormStartPosition.Manual;
-            Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2, (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2 - 400);
+            Location = new Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2 - 400);
             Load += FormMainPage_Load;
             mainPanel.ResumeLayout(false);
             slidingPanel.ResumeLayout(false);
             ResumeLayout(false);
-            //
-            //labelTeamAScore
-            //
+            // 
+            // labelTeamAScore
+            // 
             labelTeamAScore.ForeColor = Color.White;
             labelTeamAScore.Text = "TeamA";
             labelTeamAScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
             labelTeamAScore.AutoSize = true;
             labelTeamAScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamAScore.Width) / 4, 30);
             mainPanel.Controls.Add(labelTeamAScore);
-            //
-            //labelTeamBScore
-            //
+            // 
+            // labelTeamBScore
+            // 
             labelTeamBScore.ForeColor = Color.White;
             labelTeamBScore.Text = "TeamB";
             labelTeamBScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
             labelTeamBScore.AutoSize = true;
             labelTeamBScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamBScore.Width) / 4, 60);
             mainPanel.Controls.Add(labelTeamBScore);
-            //
-            //labelCoverage
-            //     
+            // 
+            // labelCoverage
+            // 
             labelCoverage.ForeColor = Color.White;
             labelCoverage.Text = "Coverage";
             labelCoverage.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
             labelCoverage.AutoSize = true;
             labelCoverage.Location = new Point((mainPanel.Left + mainPanel.Right - labelCoverage.Width) / 4, 5);
             mainPanel.Controls.Add(labelCoverage);
-            //
-            //labelStatus
-            //
+            // 
+            // labelStatus
+            // 
             labelStatus.ForeColor = Color.White;
             labelStatus.Text = "Status is here";
             labelStatus.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
