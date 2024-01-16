@@ -36,15 +36,18 @@ namespace CricketScoreScraper
             toggleButton = new Button();
             scoreListBox = new ListBox();
             slidingPanel = new Panel();
+            loadingBox = new TextBox();
             mainPanel.SuspendLayout();
             slidingPanel.SuspendLayout();
             SuspendLayout();
+            loadingBox.SuspendLayout();
 
 
             // 
             // mainPanel
             // 
             mainPanel.Controls.Add(toggleButton);
+            mainPanel.Controls.Add(loadingBox);
             mainPanel.Dock = DockStyle.Top;
             mainPanel.Location = new Point(0, 0);
             mainPanel.Margin = new Padding(3, 4, 3, 4);
@@ -77,6 +80,20 @@ namespace CricketScoreScraper
             scoreListBox.TabIndex = 0;
             scoreListBox.BackColor = System.Drawing.Color.FromArgb(122, 102, 138);
             scoreListBox.BorderStyle = BorderStyle.None;
+            // 
+            // loadingBox
+            // 
+            loadingBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            loadingBox.BackColor = SystemColors.MenuText;
+            loadingBox.Font = new Font("Segoe UI Symbol", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            loadingBox.ForeColor = Color.AliceBlue;
+            loadingBox.Location = new Point(372, 39);
+            loadingBox.Name = "loadingBox";
+            loadingBox.ReadOnly = true;
+            loadingBox.Size = new Size(106, 45);
+            loadingBox.TabIndex = 1;
+            loadingBox.Text = "Loading";
+            loadingBox.TextChanged += textBox1_TextChanged;
             // 
             // slidingPanel
             // 
@@ -116,5 +133,6 @@ namespace CricketScoreScraper
         private Button toggleButton;
         private Panel slidingPanel;
         private ListBox scoreListBox;
+        private TextBox loadingBox;
     }
 }

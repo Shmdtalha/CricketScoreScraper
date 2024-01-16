@@ -14,7 +14,6 @@ namespace CricketScoreScraper
             originalHeight = this.Height;
             slidingPanel.Top = mainPanel.Bottom;
             SetTheme();
-            SetEnvironment();
         }
 
 
@@ -76,13 +75,9 @@ namespace CricketScoreScraper
             // Improve the font style for the scoreListBox
             scoreListBox.Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))); // Change the font style as needed
 
-            
+
         }
 
-        private void SetEnvironment()
-        {
-           
-        }
         protected override void OnPaint(PaintEventArgs e)
         {
             ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.DarkSlateGray, ButtonBorderStyle.Solid);
@@ -105,8 +100,9 @@ namespace CricketScoreScraper
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
-
-
+        }
     }
 }
