@@ -66,6 +66,7 @@ namespace CricketScoreScraper
             toggleButton.TabIndex = 0;
             toggleButton.UseVisualStyleBackColor = true;
             toggleButton.Click += toggleButton_Click;
+            toggleButton.Image = Properties.Resources.arrow;
             // 
             // scoreListBox
             // 
@@ -90,10 +91,14 @@ namespace CricketScoreScraper
             loadingBox.Location = new Point(372, 39);
             loadingBox.Name = "loadingBox";
             loadingBox.ReadOnly = true;
+            loadingBox.BorderStyle = BorderStyle.None;
+            loadingBox.TextAlign = HorizontalAlignment.Center;
             loadingBox.Size = new Size(106, 45);
             loadingBox.TabIndex = 1;
             loadingBox.Text = "Loading";
             loadingBox.TextChanged += textBox1_TextChanged;
+            loadingBox.TabStop = false;
+            loadingBox.GotFocus += LoadingBox_GotFocus;
             // 
             // slidingPanel
             // 

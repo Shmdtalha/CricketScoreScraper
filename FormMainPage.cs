@@ -7,20 +7,74 @@ namespace CricketScoreScraper
     {
         private readonly int originalHeight;
         public Scores scores;
-        public FormMainPage(Scores scores)
+        public FormMainPage()
         {
-            this.scores = scores;
             InitializeComponent();
             originalHeight = this.Height;
             slidingPanel.Top = mainPanel.Bottom;
             SetTheme();
+
+            _ =InitializeAsync();
+
+ 
         }
 
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                //Restrict access before scorecards load
+                loadingBox.Visible = true;
+                toggleButton.Enabled = false;
+                slidingPanel.Visible = false;
 
+                //Initialize ASync
+                HttpClient client = new HttpClient();
+                scores = new Scores(client);
+                await scores.InitializeAsync();
+
+                // Fill ListBox
+
+                // Subscribe to the event that fires when the ListBox items need to be drawn
+                scoreListBox.DrawMode = DrawMode.OwnerDrawVariable;
+                scoreListBox.DrawItem += ScoreListBox_DrawItem;
+                List<Scorecard> scorecards = scores.scorecards;
+                scoreListBox.Items.Clear();
+                foreach (var match in scorecards)
+                {
+                    string matchInfo = match.details;
+                    scoreListBox.Items.Add(matchInfo);
+                }
+
+                // ALlow access when scorecards laod
+                loadingBox.Visible = false;
+                toggleButton.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
 
         private void toggleButton_Click(object sender, EventArgs e)
         {
             ToggleDetailsPanel();
+        }
+        private void ScoreListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index >= 0)
+            {
+                e.DrawBackground();
+
+                string itemText = scoreListBox.Items[e.Index].ToString();
+
+                // Draw the item text with word wrapping
+                TextRenderer.DrawText(e.Graphics, itemText, scoreListBox.Font,
+                    new Rectangle(e.Bounds.X, e.Bounds.Y, scoreListBox.Width, e.Bounds.Height),
+                    scoreListBox.ForeColor, TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter);
+
+                e.DrawFocusRectangle();
+            }
         }
 
         private void ToggleDetailsPanel()
@@ -57,6 +111,7 @@ namespace CricketScoreScraper
         private void SetTheme()
         {
 
+
             // Set the background color for the main panel (darker purplish-grey)
             slidingPanel.BackColor = mainPanel.BackColor = System.Drawing.Color.FromArgb(45, 12, 57);
 
@@ -82,22 +137,17 @@ namespace CricketScoreScraper
         {
             ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.DarkSlateGray, ButtonBorderStyle.Solid);
         }
-
+        private void LoadingBox_GotFocus(object sender, EventArgs e)
+        {
+            // Prevent focus on the TextBox
+            this.ActiveControl = null;
+        }
 
         private void FormMainPage_Load(object sender, EventArgs e)
         {
-            // Assuming Scores class has a method to get match details
-            List<Scorecard> scorecards = scores.scorecards;
+           
 
-            // Clear existing items in the ListBox
-            scoreListBox.Items.Clear();
 
-            // Add match details to the ListBox
-            foreach (var match in scorecards)
-            {
-                string matchInfo = match.details;
-                scoreListBox.Items.Add(matchInfo);
-            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
