@@ -115,7 +115,7 @@ namespace CricketScoreScraper
             refreshButton.TabIndex = 7;
             refreshButton.Text = "Refresh";
             refreshButton.UseVisualStyleBackColor = false;
-            refreshButton.Click += button1_Click;
+            refreshButton.Click += refreshButton_Click;
             // 
             // scorecardPanel
             // 

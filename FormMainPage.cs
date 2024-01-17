@@ -21,15 +21,33 @@ namespace CricketScoreScraper
 
         }
 
+        private void startLoading()
+        {
+            Height = originalHeight;
+            loadingBox.Visible = true;
+            toggleButton.Enabled = false;
+            slidingPanel.Visible = false;
+            labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = false;
+
+        }
+
+        private void endLoading()
+        {
+            labelStatus.Location = new Point(15, 95);
+            labelCoverage.Location = new Point(15, 5);
+            labelTeamBScore.Location = new Point(15, 60);
+            labelTeamAScore.Location = new Point(15, 30);
+            loadingBox.Visible = false;
+            toggleButton.Enabled = true;
+            labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = true;
+
+        }
         public async Task InitializeAsync()
         {
             try
             {
                 //Restrict access before scorecards load
-                loadingBox.Visible = true;
-                toggleButton.Enabled = false;
-                slidingPanel.Visible = false;
-                labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = false;
+                startLoading();
 
                 //Initialize ASync
                 HttpClient client = new HttpClient();
@@ -45,15 +63,9 @@ namespace CricketScoreScraper
                     scoreListBox.Items.Add(matchInfo);
                 }
 
-
                 //Allow access when scorecards load
-                labelStatus.Location = new Point(15, 95);
-                labelCoverage.Location = new Point(15, 5);
-                labelTeamBScore.Location = new Point(15, 60);
-                labelTeamAScore.Location = new Point(15, 30);
-                loadingBox.Visible = false;
-                toggleButton.Enabled = true;
-                labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = true;
+                endLoading();
+
             }
             catch (Exception ex)
             {
@@ -161,9 +173,33 @@ namespace CricketScoreScraper
             this.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void refreshButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Start loading before refresh
+                startLoading();
 
+                if (scoreListBox.SelectedIndex >= 0)
+                {
+                    // Get the selected scorecard
+                    Scorecard selectedScorecard = scores.scorecards[scoreListBox.SelectedIndex];
+
+                    // Fetch match details asynchronously
+                    await scores.FetchMatchDetailsAsync(selectedScorecard.link);
+
+                    // Update labels with the refreshed information
+                    labelTeamAScore.Text = $"{selectedScorecard.teamA}: {selectedScorecard.scoreA}";
+                    labelTeamBScore.Text = $"{selectedScorecard.teamB}: {selectedScorecard.scoreB}";
+                    labelCoverage.Text = selectedScorecard.coverage;
+                    labelStatus.Text = selectedScorecard.status;
+                }
+            }
+            finally
+            {
+                // End loading after refresh
+                endLoading();
+            }
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
