@@ -37,10 +37,6 @@ namespace CricketScoreScraper
                 await scores.InitializeAsync();
 
                 // Fill ListBox
-
-                // Subscribe to the event that fires when the ListBox items need to be drawn
-                scoreListBox.DrawMode = DrawMode.OwnerDrawVariable;
-                scoreListBox.DrawItem += ScoreListBox_DrawItem;
                 List<Scorecard> scorecards = scores.scorecards;
                 scoreListBox.Items.Clear();
                 foreach (var match in scorecards)
@@ -49,7 +45,12 @@ namespace CricketScoreScraper
                     scoreListBox.Items.Add(matchInfo);
                 }
 
-                // ALlow access when scorecards laod
+
+                //Allow access when scorecards load
+                labelStatus.Location = new Point(15, 95);
+                labelCoverage.Location = new Point(15, 5);
+                labelTeamBScore.Location = new Point(15, 60);
+                labelTeamAScore.Location = new Point(15, 30);
                 loadingBox.Visible = false;
                 toggleButton.Enabled = true;
                 labelTeamAScore.Visible = labelTeamBScore.Visible = labelCoverage.Visible = labelStatus.Visible = true;
@@ -63,22 +64,6 @@ namespace CricketScoreScraper
         private void toggleButton_Click(object sender, EventArgs e)
         {
             ToggleDetailsPanel();
-        }
-        private void ScoreListBox_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            if (e.Index >= 0)
-            {
-                e.DrawBackground();
-
-                string itemText = scoreListBox.Items[e.Index].ToString();
-
-                // Draw the item text with word wrapping
-                TextRenderer.DrawText(e.Graphics, itemText, scoreListBox.Font,
-                    new Rectangle(e.Bounds.X, e.Bounds.Y, scoreListBox.Width, e.Bounds.Height),
-                    scoreListBox.ForeColor, TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter);
-
-                e.DrawFocusRectangle();
-            }
         }
 
         private void ToggleDetailsPanel()
@@ -131,6 +116,8 @@ namespace CricketScoreScraper
         private void SetTheme()
         {
 
+            StartPosition = FormStartPosition.Manual;
+            Location = new Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2 - 400);
 
             // Set the background color for the main panel (darker purplish-grey)
             slidingPanel.BackColor = mainPanel.BackColor = System.Drawing.Color.FromArgb(45, 12, 57);
@@ -139,9 +126,6 @@ namespace CricketScoreScraper
             // Set the background color for the list box (darker greyish tone)
             scoreListBox.BackColor = System.Drawing.Color.FromArgb(122, 102, 138);
 
-
-            // Set the font color for the main panel
-            mainPanel.ForeColor = System.Drawing.Color.White;
 
             // Set the font color for the sliding panel and list box
             slidingPanel.ForeColor = scoreListBox.ForeColor = System.Drawing.Color.Black;
@@ -153,10 +137,6 @@ namespace CricketScoreScraper
 
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.DarkSlateGray, ButtonBorderStyle.Solid);
-        }
         private void LoadingBox_GotFocus(object sender, EventArgs e)
         {
             // Prevent focus on the TextBox
@@ -176,5 +156,19 @@ namespace CricketScoreScraper
             }
         }
 
+        private void FormMainPage_Load(object sender, EventArgs e)
+        {
+            this.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -54,9 +54,10 @@ namespace CricketScoreScraper.Scraper
                 List<HtmlNode> scoreNodes = document.DocumentNode.Descendants("a")
                     .Where(node => node.GetAttributeValue("class", "").Contains(class_scorecard)).ToList();
 
+                Console.WriteLine($"{scoreNodes.Count} Scorecards found");
 
                 //Scrape subpages in batchess
-                for(int i = 0; i <  scoreNodes.Count; i+= batchSize) {
+                for (int i = 0; i <  scoreNodes.Count; i+= batchSize) {
 
                     List<string> batchUrls = scoreNodes
                     .Skip(i)
@@ -66,7 +67,6 @@ namespace CricketScoreScraper.Scraper
 
                     var tasks = batchUrls.Select(url => FetchMatchDetailsAsync(url));
                     await Task.WhenAll(tasks);
-                    Console.WriteLine($"{scorecards.Count} Scorecards fetched...");
                 }
 
                 //Sort by relevancy

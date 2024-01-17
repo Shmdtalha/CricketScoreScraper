@@ -33,85 +33,188 @@ namespace CricketScoreScraper
         private void InitializeComponent()
         {
             mainPanel = new Panel();
+            buttonPanel = new Panel();
             toggleButton = new Button();
-            scoreListBox = new ListBox();
-            slidingPanel = new Panel();
+            settingsButton = new Button();
+            refreshButton = new Button();
+            scorecardPanel = new Panel();
             loadingBox = new TextBox();
+            labelCoverage = new Label();
             labelTeamAScore = new Label();
             labelTeamBScore = new Label();
-            labelCoverage = new Label();
             labelStatus = new Label();
+            scoreListBox = new ListBox();
+            slidingPanel = new Panel();
             mainPanel.SuspendLayout();
+            buttonPanel.SuspendLayout();
+            scorecardPanel.SuspendLayout();
             slidingPanel.SuspendLayout();
             SuspendLayout();
-            loadingBox.SuspendLayout();
             // 
             // mainPanel
             // 
-            mainPanel.Controls.Add(toggleButton);
-            mainPanel.Controls.Add(loadingBox);
+            mainPanel.BackColor = Color.FromArgb(45, 12, 57);
+            mainPanel.Controls.Add(buttonPanel);
+            mainPanel.Controls.Add(scorecardPanel);
             mainPanel.Dock = DockStyle.Top;
             mainPanel.Location = new Point(0, 0);
             mainPanel.Margin = new Padding(3, 4, 3, 4);
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(728, 125);
             mainPanel.TabIndex = 0;
-            mainPanel.BackColor = Color.FromArgb(45, 12, 57);
+            // 
+            // buttonPanel
+            // 
+            buttonPanel.Controls.Add(toggleButton);
+            buttonPanel.Controls.Add(settingsButton);
+            buttonPanel.Controls.Add(refreshButton);
+            buttonPanel.Dock = DockStyle.Left;
+            buttonPanel.Location = new Point(0, 0);
+            buttonPanel.Name = "buttonPanel";
+            buttonPanel.Size = new Size(111, 125);
+            buttonPanel.TabIndex = 6;
             // 
             // toggleButton
             // 
-            toggleButton.Dock = DockStyle.Left;
-            toggleButton.Location = new Point(0, 0);
+            toggleButton.BackColor = Color.MistyRose;
+            toggleButton.Dock = DockStyle.Fill;
+            toggleButton.FlatStyle = FlatStyle.Flat;
+            toggleButton.Image = Properties.Resources.arrow;
+            toggleButton.Location = new Point(0, 76);
             toggleButton.Margin = new Padding(3, 4, 3, 4);
             toggleButton.Name = "toggleButton";
-            toggleButton.Size = new Size(125, 125);
+            toggleButton.Size = new Size(111, 49);
             toggleButton.TabIndex = 0;
-            toggleButton.UseVisualStyleBackColor = true;
+            toggleButton.UseVisualStyleBackColor = false;
             toggleButton.Click += toggleButton_Click;
-            toggleButton.Image = Properties.Resources.arrow;
+            // 
+            // settingsButton
+            // 
+            settingsButton.BackColor = Color.Thistle;
+            settingsButton.Dock = DockStyle.Top;
+            settingsButton.FlatStyle = FlatStyle.Flat;
+            settingsButton.Location = new Point(0, 38);
+            settingsButton.Margin = new Padding(0);
+            settingsButton.Name = "settingsButton";
+            settingsButton.Size = new Size(111, 38);
+            settingsButton.TabIndex = 8;
+            settingsButton.Text = "Settings";
+            settingsButton.UseVisualStyleBackColor = false;
+            settingsButton.Click += settingsButton_Click;
+            // 
+            // refreshButton
+            // 
+            refreshButton.BackColor = Color.Thistle;
+            refreshButton.BackgroundImageLayout = ImageLayout.None;
+            refreshButton.Dock = DockStyle.Top;
+            refreshButton.FlatStyle = FlatStyle.Flat;
+            refreshButton.Location = new Point(0, 0);
+            refreshButton.Margin = new Padding(0);
+            refreshButton.Name = "refreshButton";
+            refreshButton.Size = new Size(111, 38);
+            refreshButton.TabIndex = 7;
+            refreshButton.Text = "Refresh";
+            refreshButton.UseVisualStyleBackColor = false;
+            refreshButton.Click += button1_Click;
+            // 
+            // scorecardPanel
+            // 
+            scorecardPanel.Controls.Add(loadingBox);
+            scorecardPanel.Controls.Add(labelCoverage);
+            scorecardPanel.Controls.Add(labelTeamAScore);
+            scorecardPanel.Controls.Add(labelTeamBScore);
+            scorecardPanel.Controls.Add(labelStatus);
+            scorecardPanel.Dock = DockStyle.Right;
+            scorecardPanel.Location = new Point(107, 0);
+            scorecardPanel.Name = "scorecardPanel";
+            scorecardPanel.Size = new Size(621, 125);
+            scorecardPanel.TabIndex = 6;
+            // 
+            // loadingBox
+            // 
+            loadingBox.BackColor = SystemColors.MenuText;
+            loadingBox.BorderStyle = BorderStyle.None;
+            loadingBox.Dock = DockStyle.Fill;
+            loadingBox.Font = new Font("Segoe UI Symbol", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            loadingBox.ForeColor = Color.AliceBlue;
+            loadingBox.Location = new Point(0, 0);
+            loadingBox.Name = "loadingBox";
+            loadingBox.ReadOnly = true;
+            loadingBox.Size = new Size(621, 38);
+            loadingBox.TabIndex = 1;
+            loadingBox.TabStop = false;
+            loadingBox.Text = "Loading";
+            loadingBox.TextAlign = HorizontalAlignment.Center;
+            loadingBox.GotFocus += LoadingBox_GotFocus;
+            // 
+            // labelCoverage
+            // 
+            labelCoverage.AutoSize = true;
+            labelCoverage.Font = new Font("Arial", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelCoverage.ForeColor = Color.White;
+            labelCoverage.Location = new Point(0, 5);
+            labelCoverage.Name = "labelCoverage";
+            labelCoverage.Size = new Size(95, 23);
+            labelCoverage.TabIndex = 4;
+            labelCoverage.Text = "Coverage";
+            // 
+            // labelTeamAScore
+            // 
+            labelTeamAScore.AutoSize = true;
+            labelTeamAScore.Font = new Font("Arial", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            labelTeamAScore.ForeColor = Color.White;
+            labelTeamAScore.Location = new Point(0, 0);
+            labelTeamAScore.Name = "labelTeamAScore";
+            labelTeamAScore.Size = new Size(94, 31);
+            labelTeamAScore.TabIndex = 2;
+            labelTeamAScore.Text = "TeamA";
+            // 
+            // labelTeamBScore
+            // 
+            labelTeamBScore.AutoSize = true;
+            labelTeamBScore.Font = new Font("Arial", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            labelTeamBScore.ForeColor = Color.White;
+            labelTeamBScore.Location = new Point(0, 0);
+            labelTeamBScore.Name = "labelTeamBScore";
+            labelTeamBScore.Size = new Size(94, 31);
+            labelTeamBScore.TabIndex = 3;
+            labelTeamBScore.Text = "TeamB";
+            // 
+            // labelStatus
+            // 
+            labelStatus.AutoSize = true;
+            labelStatus.Font = new Font("Arial", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            labelStatus.ForeColor = Color.White;
+            labelStatus.Location = new Point(0, 0);
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new Size(131, 23);
+            labelStatus.TabIndex = 5;
+            labelStatus.Text = "Status is here";
             // 
             // scoreListBox
             // 
+            scoreListBox.BackColor = Color.FromArgb(122, 102, 138);
+            scoreListBox.BorderStyle = BorderStyle.None;
             scoreListBox.Dock = DockStyle.Fill;
+            scoreListBox.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             scoreListBox.FormattingEnabled = true;
-            scoreListBox.ItemHeight = 25;
+            scoreListBox.ItemHeight = 27;
             scoreListBox.Location = new Point(0, 0);
             scoreListBox.Margin = new Padding(3, 4, 3, 4);
             scoreListBox.Name = "scoreListBox";
             scoreListBox.Size = new Size(728, 0);
-            scoreListBox.Font = new Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Point, 0);
             scoreListBox.TabIndex = 0;
-            scoreListBox.BackColor = Color.FromArgb(122, 102, 138);
-            scoreListBox.BorderStyle = BorderStyle.None;
             scoreListBox.SelectedIndexChanged += scoreListBox_SelectedIndexChanged;
-            // 
-            // loadingBox
-            // 
-            loadingBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            loadingBox.BackColor = SystemColors.MenuText;
-            loadingBox.Font = new Font("Segoe UI Symbol", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            loadingBox.ForeColor = Color.AliceBlue;
-            loadingBox.Location = new Point(372, 39);
-            loadingBox.Name = "loadingBox";
-            loadingBox.ReadOnly = true;
-            loadingBox.BorderStyle = BorderStyle.None;
-            loadingBox.TextAlign = HorizontalAlignment.Center;
-            loadingBox.Size = new Size(Height, Width);
-            loadingBox.TabIndex = 1;
-            loadingBox.Text = "Loading";
-            loadingBox.TabStop = false;
-            loadingBox.Dock = DockStyle.Fill;
-            loadingBox.GotFocus += LoadingBox_GotFocus;
             // 
             // slidingPanel
             // 
+            slidingPanel.BackColor = Color.FromArgb(45, 12, 57);
             slidingPanel.Controls.Add(scoreListBox);
             slidingPanel.Dock = DockStyle.Fill;
             slidingPanel.Location = new Point(0, 125);
             slidingPanel.Margin = new Padding(3, 4, 3, 4);
             slidingPanel.Name = "slidingPanel";
             slidingPanel.Size = new Size(728, 0);
-            slidingPanel.BackColor = Color.FromArgb(45, 12, 57);
             slidingPanel.TabIndex = 1;
             // 
             // FormMainPage
@@ -119,55 +222,21 @@ namespace CricketScoreScraper
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(728, 125);
+            ControlBox = false;
             Controls.Add(slidingPanel);
             Controls.Add(mainPanel);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "FormMainPage";
-            ControlBox = false;
-            Text = "";
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Location = new Point(2560, 1440);
+            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
-            StartPosition = FormStartPosition.Manual;
-            Location = new Point((Screen.PrimaryScreen.Bounds.Width - Width) / 2, (Screen.PrimaryScreen.Bounds.Height - Height) / 2 - 400);
+            Name = "FormMainPage";
+            Load += FormMainPage_Load;
             mainPanel.ResumeLayout(false);
+            buttonPanel.ResumeLayout(false);
+            scorecardPanel.ResumeLayout(false);
+            scorecardPanel.PerformLayout();
             slidingPanel.ResumeLayout(false);
             ResumeLayout(false);
-            // 
-            // labelTeamAScore
-            // 
-            labelTeamAScore.ForeColor = Color.White;
-            labelTeamAScore.Text = "TeamA";
-            labelTeamAScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
-            labelTeamAScore.AutoSize = true;
-            labelTeamAScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamAScore.Width) / 4, 30);
-            mainPanel.Controls.Add(labelTeamAScore);
-            // 
-            // labelTeamBScore
-            // 
-            labelTeamBScore.ForeColor = Color.White;
-            labelTeamBScore.Text = "TeamB";
-            labelTeamBScore.Font = new Font("Arial", 13, FontStyle.Regular, GraphicsUnit.Point);
-            labelTeamBScore.AutoSize = true;
-            labelTeamBScore.Location = new Point((mainPanel.Left + mainPanel.Right - labelTeamBScore.Width) / 4, 60);
-            mainPanel.Controls.Add(labelTeamBScore);
-            // 
-            // labelCoverage
-            // 
-            labelCoverage.ForeColor = Color.White;
-            labelCoverage.Text = "Coverage";
-            labelCoverage.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
-            labelCoverage.AutoSize = true;
-            labelCoverage.Location = new Point((mainPanel.Left + mainPanel.Right - labelCoverage.Width) / 4, 5);
-            mainPanel.Controls.Add(labelCoverage);
-            // 
-            // labelStatus
-            // 
-            labelStatus.ForeColor = Color.White;
-            labelStatus.Text = "Status is here";
-            labelStatus.Font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Point);
-            labelStatus.AutoSize = true;
-            labelStatus.Location = new Point((mainPanel.Left + mainPanel.Right - labelStatus.Width) / 4, 95);
-            mainPanel.Controls.Add(labelStatus);
         }
 
         #endregion
@@ -181,5 +250,9 @@ namespace CricketScoreScraper
         private Label labelTeamBScore;
         private Label labelCoverage;
         private Label labelStatus;
+        private Panel scorecardPanel;
+        private Button refreshButton;
+        private Panel buttonPanel;
+        private Button settingsButton;
     }
 }
